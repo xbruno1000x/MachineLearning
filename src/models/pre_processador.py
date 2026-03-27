@@ -124,8 +124,7 @@ class PreProcessador:
 		self.previsores = pd.DataFrame(
 			valores_escalados,
 			columns=self.cols_previsores,
-			index=self.base.index,
-		)
+			index=self.base.index,		)
 
 	def preProcessar(self, configs):
 		for col in configs["cols_categoria_ordinal"]:
