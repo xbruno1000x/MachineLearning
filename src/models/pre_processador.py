@@ -8,13 +8,13 @@ Created on Wed Mar 26 19:03:00 2026
 
 # %%
 import pandas as pd
+import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import StandardScaler
 
 
 class PreProcessador:
-	label_encoder = LabelEncoder()
 	scaler = StandardScaler()
 
 	def __init__(self, configs):
@@ -30,7 +30,7 @@ class PreProcessador:
 			"col_classe": configs.get("col_classe", "LoanApproved"),
 			"remover_colunas": configs.get("remover_colunas", []),
 			"concatenacao": configs.get("concatenacao", None),
-			"cols_categoria_nominal": configs.get("cols_categoria_nominal", []),
+			"cols_categoria_ordinal": configs.get("cols_categoria_ordinal", []),
 			"cols_dummy": configs.get("cols_dummy", []),
 			"padronizacao": configs.get("padronizacao", False),
 			"test_size": configs.get("test_size", 0.25),
@@ -98,18 +98,22 @@ class PreProcessador:
 		self.previsores = self.base[self.cols_previsores].copy()
 		self.classe = self.base[self.cols_classe].copy()
 
-	def transformarVariavelCategoriaNominal(self, nome_col):
-		if nome_col not in self.previsores.columns:
+	def transformarVariavelCategoriaOrdinal(self, col):
+		if col.nome not in self.previsores.columns:
 			return
 
-		self.previsores.loc[:, nome_col] = self.label_encoder.fit_transform(
-			self.previsores.loc[:, nome_col].astype(str)
+		labelEnconder = LabelEncoder()
+		if col.ordem is not None:
+			labelEnconder.classes_ = np.array(col.ordem)
+
+		self.previsores.loc[:, col.nome] = labelEnconder.fit_transform(
+			self.previsores.loc[:, col.nome].astype(str)
 		)
 
 	def transformarVariavelDummy(self, nome_col):
 		if nome_col not in self.previsores.columns:
 			return
-
+		
 		dummies = pd.get_dummies(self.previsores[nome_col], prefix=nome_col, dtype=int)
 		self.previsores = self.previsores.join(dummies)
 		self.previsores.drop(nome_col, axis=1, inplace=True)
@@ -124,8 +128,8 @@ class PreProcessador:
 		)
 
 	def preProcessar(self, configs):
-		for col in configs["cols_categoria_nominal"]:
-			self.transformarVariavelCategoriaNominal(col)
+		for col in configs["cols_categoria_ordinal"]:
+			self.transformarVariavelCategoriaOrdinal(col)
 
 		for col in configs["cols_dummy"]:
 			self.transformarVariavelDummy(col)
