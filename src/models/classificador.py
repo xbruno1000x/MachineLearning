@@ -72,10 +72,9 @@ class Classificador:
         # Teste
         self.previsoes = self.preverModelo(self.previsores_teste)
         
-        print(self.cols_previsores)
         n_features = len(self.cols_previsores)
         plt.barh(range(n_features), self.classificador.feature_importances_, align='center')
-        plt.yticks(np.arange(n_features), self.previsores.columns)
+        plt.yticks(np.arange(n_features), self.cols_previsores)
         plt.xlabel("Feature importance")
         plt.ylabel("Feature")
     
