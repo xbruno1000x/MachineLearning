@@ -20,7 +20,7 @@ df.describe()
 configs = {
 	"nome_arquivo": Path('../data/loan_risk_balanceado.csv'),
 	"col_classe": "LoanApproved",
-	"random_state": 42,
+	"random_state": 0,
 }
 
 # %%

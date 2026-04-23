@@ -29,7 +29,7 @@ from models.classificador import Classificador
 from models.pre_processador import PreProcessador
 from models.metrificador import Metrificador
 
-configs["random_state"] = 42
+configs["random_state"] = 0
 pre_processador = PreProcessador(configs)
 classificador = Classificador(pre_processador)
 

@@ -22,7 +22,7 @@ configs = {
 	"nome_arquivo": Path('../data/loan_risk_balanceado.csv'),
 	"cols_dummy": ['City', 'Gender', 'Education', 'EmploymentType'],
 	"cols_categoria_ordinal": categoricasOrdinais,
-	"random_state": 42,
+	"random_state": 0,
 }
 
 # %%

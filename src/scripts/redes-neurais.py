@@ -22,6 +22,7 @@ configs = {
 	"nome_arquivo": csv_path,
 	"cols_dummy": ['City', 'Gender', 'Education', 'EmploymentType'],
 	"cols_categoria_ordinal": categoricasOrdinais,
+	"padronizacao": True,
 	"random_state": 0,
 }
 
@@ -33,10 +34,14 @@ from models.metrificador import Metrificador
 pre_processador = PreProcessador(configs)
 classificador = Classificador(pre_processador)
 
-classificador.ArvoreDecisao(
-	criterion='entropy',
-	max_depth=8,
-	random_state=0,
+classificador.RedesNeurais(
+	verbose=False,
+	max_iter=2500,
+	tol=1e-7,
+	solver='sgd',
+	hls=[10, 10],
+	activation='relu',
+	random_state=1,
 )
 
 metrificador = Metrificador(classificador)
@@ -46,3 +51,7 @@ matriz_confusao = metrificador.matrizConfusao()
 # %%
 print(f"Acuracia: {acuracia}")
 print(f"Matriz de Confusao:\n{matriz_confusao}")
+print(f"Iteracoes: {classificador.classificador.n_iter_}")
+print(f"Loss final: {classificador.classificador.loss_:.6f}")
+
+# %%
