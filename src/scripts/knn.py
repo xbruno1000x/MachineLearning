@@ -15,13 +15,9 @@ df.head(5)
 df.value_counts('EmploymentType')
 
 # %%
-categoricasOrdinais = []
-
-# %%
 configs = {
     "nome_arquivo": Path('../data/loan_risk_balanceado.csv'),
-    "cols_dummy": ['City', 'Gender', 'Education', 'EmploymentType'],
-    "cols_categoria_ordinal": categoricasOrdinais
+    "cols_dummy": ['City', 'Gender', 'Education', 'EmploymentType']
 }
 
 # %%

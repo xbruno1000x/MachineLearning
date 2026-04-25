@@ -30,7 +30,7 @@ class Classificador:
                                                   p = 2)
         
         # Treinamento
-        self.treinarModelo(self.previsores_treinamento, self.classe_treinamento)
+        self.treinarModelo(self.previsores_treinamento, self.classe_treinamento.iloc[:, 0])
         
         # Teste
         self.previsoes = self.preverModelo(self.previsores_teste)
