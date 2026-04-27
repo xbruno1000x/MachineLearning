@@ -99,15 +99,17 @@ class PreProcessador:
 		self.classe = self.base[self.cols_classe].copy()
 
 	def transformarVariavelCategoriaOrdinal(self, col):
-		if col.nome not in self.previsores.columns:
+		nome = col.get("nome", "")
+		ordem = col.get("ordem", None)
+		if nome not in self.previsores.columns:
 			return
 
 		labelEnconder = LabelEncoder()
-		if col.ordem is not None:
-			labelEnconder.classes_ = np.array(col.ordem)
+		if ordem is not None:
+			labelEnconder.classes_ = np.array(ordem)
 
-		self.previsores.loc[:, col.nome] = labelEnconder.fit_transform(
-			self.previsores.loc[:, col.nome].astype(str)
+		self.previsores.loc[:, nome] = labelEnconder.fit_transform(
+			self.previsores.loc[:, nome].astype(str)
 		)
 
 	def transformarVariavelDummy(self, nome_col):
