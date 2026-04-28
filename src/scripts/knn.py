@@ -6,7 +6,8 @@ SRC_DIR = Path(__file__).resolve().parents[1]
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
-csv_path = Path(str(SRC_DIR) + '/data/loan_risk_balanceado.csv')
+# csv_path = Path(str(SRC_DIR) + '/data/loan_risk_balanceado.csv')
+csv_path = Path(str(SRC_DIR) + '/data/loan_risk_prediction_dataset.csv')
 
 # EmploymentType -> Self-Employed, Salaried, Unemployed
 # Education -> PhD, Masters, Bachelors, High School
@@ -16,7 +17,7 @@ csv_path = Path(str(SRC_DIR) + '/data/loan_risk_balanceado.csv')
 configs = {
     "nome_arquivo": csv_path,
     # "cols_dummy": ['City', 'Gender', 'EmploymentType', 'Education'],
-    "padronizacao": "True",
+    # "padronizacao": "True",
     "cols_categoria_ordinal": [
         {
             "nome": "EmploymentType",
