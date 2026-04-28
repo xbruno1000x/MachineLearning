@@ -12,6 +12,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import StandardScaler
+import seaborn as sns
 
 
 class PreProcessador:
@@ -104,18 +105,23 @@ class PreProcessador:
 		if nome not in self.previsores.columns:
 			return
 
-		labelEnconder = LabelEncoder()
+		labelEncoder = LabelEncoder()
 		if ordem is not None:
-			labelEnconder.classes_ = np.array(ordem)
+			labelEncoder.classes_ = np.array(ordem)
 
-		self.previsores.loc[:, nome] = labelEnconder.fit_transform(
-			self.previsores.loc[:, nome].astype(str)
-		)
+		# Garantir que os valores sejam convertidos para string antes da transformação
+		self.previsores[nome] = self.previsores[nome].astype(str)
+		self.previsores[nome] = labelEncoder.fit_transform(self.previsores[nome])
+
+		# Garantir que o tipo final seja int
+		self.previsores[nome] = self.previsores[nome].astype(int)
 
 	def transformarVariavelDummy(self, nome_col):
 		if nome_col not in self.previsores.columns:
 			return
-		
+
+		# Garantir que os valores sejam convertidos para string antes de criar dummies
+		self.previsores[nome_col] = self.previsores[nome_col].astype(str)
 		dummies = pd.get_dummies(self.previsores[nome_col], prefix=nome_col, dtype=int)
 		self.previsores = self.previsores.join(dummies)
 		self.previsores.drop(nome_col, axis=1, inplace=True)
@@ -150,4 +156,14 @@ class PreProcessador:
 			random_state=configs["random_state"],
 		)
 
-# %%
+	def correlacao(self):
+		base = pd.concat([self.previsores, self.classe], axis=1)
+		correlacao = base.corr()
+		return sns.heatmap(
+			correlacao,
+			vmin=-1, vmax=1, center=0,
+			cmap=sns.diverging_palette(20, 220, n=200),
+			square=True,
+			xticklabels=True,
+			yticklabels=True
+		)
