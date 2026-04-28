@@ -15,9 +15,8 @@ class ValidacaoCruzada:
         self.classificador = classificador
         self.processador = processador
         self.n_splits = n_splits
-        self.validar()
         
-    def validar(self):
+    def metricas(self):
         kfold = StratifiedKFold(
             n_splits=self.n_splits, 
             shuffle=True, 
@@ -27,12 +26,12 @@ class ValidacaoCruzada:
         matrizes = []
         metricas = []
         
-        for indice_treinamento, indice_teste in kfold.split(self.processador.previsores, np.zeros(shape=(self.processador.previsores.shape[0], 1))):
+        for indice_treinamento, indice_teste in kfold.split(self.processador.previsores, self.processador.classe.iloc[:, 0]):
             # Treinamento com o classificador específico
-            self.classificador.treinarModelo(self.processador.previsores[indice_treinamento], self.processador.classe.iloc[indice_treinamento, 0])
+            self.classificador.treinarModelo(self.processador.previsores.iloc[indice_treinamento], self.processador.classe.iloc[indice_treinamento, 0])
 
             # Previsão
-            previsoes = self.classificador.preverModelo(self.processador.previsores[indice_teste])
+            previsoes = self.classificador.preverModelo(self.processador.previsores.iloc[indice_teste])
 
             # Avaliação
             acuracia = accuracy_score(self.processador.classe.iloc[indice_teste, 0], previsoes)
@@ -41,11 +40,20 @@ class ValidacaoCruzada:
             matrizes.append(confusion_matrix(self.processador.classe.iloc[indice_teste, 0], previsoes))
             acuracias.append(acuracia)
         
-        self.matriz_media = np.mean(matrizes, axis=0)
-        self.matriz_desvio_padrao = np.std(matrizes, axis=0)
-        self.acuracias = np.asarray(acuracias)
-        self.acuracia_final_media = np.mean(acuracias)
-        self.acuracia_final_desvio_padrao = np.std(acuracias)
-        self.metricas_medias = np.mean(metricas, axis=0)
-        self.metricas_desvio_padrao = np.std(metricas, axis=0)
+        matriz_media = np.mean(matrizes, axis=0)
+        matriz_desvio_padrao = np.std(matrizes, axis=0)
+        acuracias = np.asarray(acuracias)
+        acuracia_final_media = np.mean(acuracias)
+        acuracia_final_desvio_padrao = np.std(acuracias)
+        metricas_medias = np.mean(metricas, axis=0)
+        metricas_desvio_padrao = np.std(metricas, axis=0)
+
+        return (
+            matriz_media, 
+            matriz_desvio_padrao, 
+            acuracia_final_media, 
+            acuracia_final_desvio_padrao, 
+            metricas_medias, 
+            metricas_desvio_padrao
+        )
         
