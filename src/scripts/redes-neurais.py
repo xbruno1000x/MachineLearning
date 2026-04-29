@@ -113,23 +113,4 @@ print(f"Matriz de Confusao:\n{matriz_confusao}")
 print(f"Iteracoes: {classificador.classificador.n_iter_}")
 print(f"Loss final: {classificador.classificador.loss_:.6f}")
 
-validacao_cruzada = ValidacaoCruzada(classificador, processador, n_splits=5)
-(
-	matriz_media,
-	matriz_desvio_padrao,
-	acuracia_final_media,
-	acuracia_final_desvio_padrao,
-	metricas_medias,
-	metricas_desvio_padrao,
-) = validacao_cruzada.metricas()
-
-validacao_cruzada_redes_neurais = {
-	"matriz_media": matriz_media,
-	"matriz_desvio_padrao": matriz_desvio_padrao,
-	"acuracia_final_media": acuracia_final_media,
-	"acuracia_final_desvio_padrao": acuracia_final_desvio_padrao,
-	"metricas_medias": metricas_medias,
-	"metricas_desvio_padrao": metricas_desvio_padrao,
-}
-
 # %%
