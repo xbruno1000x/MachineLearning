@@ -58,7 +58,7 @@ class Classificador:
         self.previsoes = self.preverModelo(self.previsores_teste)
         
     
-    def RandomForest(self, criterion, max_depth, n_estimators, max_features, random_state):
+    def RandomForest(self, criterion, max_depth, n_estimators, max_features, random_state, montar_grafico=True):
         # Geração do Random Forest
         self.classificador = RandomForestClassifier(criterion = criterion, 
                                                     max_depth = max_depth, 
@@ -71,12 +71,12 @@ class Classificador:
 
         # Teste
         self.previsoes = self.preverModelo(self.previsores_teste)
-        
-        n_features = len(self.cols_previsores)
-        plt.barh(range(n_features), self.classificador.feature_importances_, align='center')
-        plt.yticks(np.arange(n_features), self.cols_previsores)
-        plt.xlabel("Feature importance")
-        plt.ylabel("Feature")
+        if (montar_grafico):
+            n_features = len(self.cols_previsores)
+            plt.barh(range(n_features), self.classificador.feature_importances_, align='center')
+            plt.yticks(np.arange(n_features), self.cols_previsores)
+            plt.xlabel("Feature importance")
+            plt.ylabel("Feature")
     
     def SVM(self, kernel, gamma, C, random_state):
         # Geração do Random Forest
