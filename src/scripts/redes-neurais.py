@@ -114,3 +114,20 @@ print(f"Iteracoes: {classificador.classificador.n_iter_}")
 print(f"Loss final: {classificador.classificador.loss_:.6f}")
 
 # %%
+
+validacao_cruzada = ValidacaoCruzada(classificador, processador, n_splits=5)
+(
+	matriz_media,
+	matriz_desvio_padrao,
+	acuracia_final_media,
+	acuracia_final_desvio_padrao,
+	metricas_medias,
+	metricas_desvio_padrao,
+) = validacao_cruzada.metricas()
+
+print(matriz_media)
+print(matriz_desvio_padrao)
+print(acuracia_final_media)
+print(acuracia_final_desvio_padrao)
+print(metricas_medias)
+print(metricas_desvio_padrao)

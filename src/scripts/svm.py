@@ -118,3 +118,20 @@ print(f"Acuracia: {acuracia}")
 print(f"Matriz de Confusao:\n{matriz_confusao}")
 
 # %%
+
+validacao_cruzada = ValidacaoCruzada(classificador, processador, n_splits=5)
+(
+    matriz_media,
+    matriz_desvio_padrao,
+    acuracia_final_media,
+    acuracia_final_desvio_padrao,
+    metricas_medias,
+    metricas_desvio_padrao,
+) = validacao_cruzada.metricas()
+
+print(matriz_media)
+print(matriz_desvio_padrao)
+print(acuracia_final_media)
+print(acuracia_final_desvio_padrao)
+print(metricas_medias)
+print(metricas_desvio_padrao)
