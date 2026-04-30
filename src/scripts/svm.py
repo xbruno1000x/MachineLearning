@@ -36,28 +36,28 @@ random_state = 0
 #     "random_state": 0,
 # }
 
-# configs = {
-#     "nome_arquivo": csv_path,
-#     "cols_dummy": [],
-#     "cols_categoria_ordinal": [
-#         {
-#             "nome": "EmploymentType",
-#             "ordem": ["Self-Employed", "Salaried", "Unemployed"],
-#         },
-#         {
-#             "nome": "Education",
-#             "ordem": ["PhD", "Masters", "Bachelors", "High School"],
-#         },
-#         {
-#             "nome": "Gender",
-#         },
-#         {
-#             "nome": "City",
-#         },
-#     ],
-#     "padronizacao": True,
-#     "random_state": 0,
-# }
+configs = {
+    "nome_arquivo": csv_path,
+    "cols_dummy": [],
+    "cols_categoria_ordinal": [
+        {
+            "nome": "EmploymentType",
+            "ordem": ["Self-Employed", "Salaried", "Unemployed"],
+        },
+        {
+            "nome": "Education",
+            "ordem": ["PhD", "Masters", "Bachelors", "High School"],
+        },
+        {
+            "nome": "Gender",
+        },
+        {
+            "nome": "City",
+        },
+    ],
+    "padronizacao": True,
+    "random_state": 0,
+}
 
 # configs = {
 #     "nome_arquivo": csv_path,
@@ -88,21 +88,21 @@ random_state = 0
 #     "random_state": 0,
 # }
 
-configs = {
-    "nome_arquivo": csv_path,
-    "remover_colunas": ["Education", "YearsExperience"],
-    "cols_dummy": ["EmploymentType"],
-    "cols_categoria_ordinal": [
-        {
-            "nome": "Gender",
-        },
-        {
-            "nome": "City",
-        },
-    ],
-    "padronizacao": True,
-    "random_state": 0,
-}
+# configs = {
+#     "nome_arquivo": csv_path,
+#     "remover_colunas": ["Education", "YearsExperience"],
+#     "cols_dummy": ["EmploymentType"],
+#     "cols_categoria_ordinal": [
+#         {
+#             "nome": "Gender",
+#         },
+#         {
+#             "nome": "City",
+#         },
+#     ],
+#     "padronizacao": True,
+#     "random_state": 0,
+# }
 
 processador = PreProcessador(configs)
 

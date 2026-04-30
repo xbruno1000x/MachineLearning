@@ -96,12 +96,12 @@ processador = PreProcessador(configs)
 classificador = Classificador(processador)
 classificador.RedesNeurais(
 	verbose=False,
-	max_iter=2000,
+	max_iter=2500,
 	tol=1e-7,
 	solver="sgd",
 	hls=[10, 10],
 	activation="relu",
-	random_state=1,
+	random_state=0
 )
 
 metrificador = Metrificador(classificador)

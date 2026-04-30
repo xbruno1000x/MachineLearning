@@ -14,15 +14,15 @@ csv_path = Path(str(SRC_DIR) + '/data/loan_risk_balanceado.csv')
 # City -> Chicago, San Francisco, New York, Houston
 
 # %%
-# criterion = "gini" 
-criterion = "log_loss" 
+criterion = "gini" 
+# criterion = "entropy" 
 # criterion = "log_loss" 
 configs = {
-	"max_features": "log2", #log2
+	"max_features": "sqrt", #log2
     "nome_arquivo": csv_path,
-    # "remover_colunas": ["Education", "YearsExperience", "Gender", "City", "Age"],
+    "remover_colunas": ["Education", "YearsExperience", "Gender", "City", "Age"],
     # "cols_dummy": ['City', 'Gender', 'EmploymentType', 'Education'],
-    "cols_dummy": ["City"],
+    # "cols_dummy": ["City"],
     # "cols_dummy": ["EmploymentType"],
     "padronizacao": "True",
     "cols_categoria_ordinal": [
@@ -30,13 +30,13 @@ configs = {
             "nome": "EmploymentType",
             "ordem": ["Self-Employed", "Salaried", "Unemployed"]
         },
-        {
-            "nome": "Education",
-            "ordem": ["PhD", "Masters", "Bachelors", "High School"]
-        },
-        {
-            "nome": "Gender"
-        },
+        # {
+        #     "nome": "Education",
+        #     "ordem": ["PhD", "Masters", "Bachelors", "High School"]
+        # },
+        # {
+        #     "nome": "Gender"
+        # },
         # {
         #     "nome": "City"
         # },
@@ -53,6 +53,7 @@ configs["random_state"] = 0
 pre_processador = PreProcessador(configs)
 classificador = Classificador(pre_processador)
 
+# %% 
 acuracias_treinamento = []
 acuracias_teste = []
 range_depth = range(1, 100)
@@ -96,3 +97,24 @@ classificador.RandomForest(
 metrificador = Metrificador(classificador)
 print(round(metrificador.acuracia(), 6))
 print(metrificador.matrizConfusao())
+
+# %%
+
+from models.validacao_cruzada import ValidacaoCruzada
+
+validacao_cruzada = ValidacaoCruzada(classificador, pre_processador, n_splits=5)
+(
+    matriz_media,
+    matriz_desvio_padrao,
+    acuracia_final_media,
+    acuracia_final_desvio_padrao,
+    metricas_medias,
+    metricas_desvio_padrao,
+) = validacao_cruzada.metricas()
+
+print(matriz_media)
+print(matriz_desvio_padrao)
+print(acuracia_final_media)
+print(acuracia_final_desvio_padrao)
+print(metricas_medias)
+print(metricas_desvio_padrao)
